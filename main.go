@@ -1,9 +1,12 @@
 package main
 
 import (
+	"booking-app/array"
 	"booking-app/common"
+	"booking-app/maps"
+	"booking-app/slice"
+	"booking-app/structs"
 	"fmt"
-	"strings"
 )
 
 // Package level variable
@@ -21,30 +24,22 @@ func main() {
 
 	greetUser()
 
-	//Arrays - specific length
-	// bookings = [50]string{}
-	// bookings = [50]string{"value1", "value2"}
-	// var bookings [50]string
-	// bookings[0] = firstName + " " + lastName
-
-	//Slices - no length needed
-	//var bookings = []string{}
-	bookings := []string{}
-
 	//Loops, there's only for loop in GO
 	//for <condition(s)>{ }
 	//for (endless loop)
 	//for true (endless loop)
 	for remainingTickets > 0 {
 
-		firstName, lastName, email, userTickets, city := scaningUserInfo()
+		fmt.Println(common.VariableScope)
+
+		firstName, lastName, email, userTickets, city := scanningUserInfo()
 		isNameValid, isLastName, isEmailValid, isTicketsValid := common.ValidateUserInput(firstName, lastName, email, userTickets)
 
 		//Conditionals
 		//Simple way just: if remainingTickets < userTickets{ }
 		//Or the one bellow
 		if !isNameValid {
-			fmt.Println("Firstname entered are invalid")
+			fmt.Println("Firstname entered is invalid")
 			continue
 		} else if !isLastName {
 			fmt.Println("Lastname entered is invalid")
@@ -81,18 +76,25 @@ func main() {
 		fmt.Printf("Thank %v %v for booking %v tickets, you'll get your recieve to %v\n", firstName, lastName, userTickets, email)
 		fmt.Printf("Remaining tickets: %v\n", remainingTickets)
 
-		//Adding values to Slice
-		bookings = append(bookings, firstName+" "+lastName)
+		// Using Arrays
+		array.AddingValuesToArray(firstName)
+		array.GettingArrayValues()
 
-		fmt.Printf("Whole array or slice: %v\n", bookings)
-		fmt.Printf("First array or slice position: %v\n", bookings[0])
-		fmt.Printf("Array or slice lenght: %v\n", len(bookings))
+		// Usings Slices
+		slice.AddingNamesToSlice(firstName, lastName)
+		slice.PrintSliceItems()
+
+		// Using Maps
+		maps.AddingUserMap(firstName, lastName, email, userTickets, city)
+		maps.GettingMapValues()
+
+		// Using Structs
+		structs.AddValuesToStruct(firstName, lastName, email, userTickets)
+		structs.PrintStructValues()
 
 		//Getting the type of variables
 		fmt.Printf("userName var is type %T\n", firstName)
 		fmt.Printf("userName var is type %T\n", userTickets)
-
-		printFirstNames(bookings)
 	}
 
 	//Specifying var types, used when specific types and automatically validated, there so many
@@ -118,17 +120,6 @@ func greetUser() {
 	fmt.Println("Please get your tickets here to attend")
 }
 
-func printFirstNames(bookings []string) {
-	firstNames := []string{}
-	//For each (index, var with content, range)
-	//_ stands for a blank variable
-	for _, booking := range bookings {
-		name := strings.Fields(booking)
-		firstNames = append(firstNames, name[0])
-	}
-	fmt.Printf("Names booked are: %v\n", firstNames)
-}
-
 // Function with returning value
 func getRemainingTickets(userTickets uint) uint {
 	updatedRemainingTickets := remainingTickets - userTickets
@@ -136,7 +127,7 @@ func getRemainingTickets(userTickets uint) uint {
 }
 
 // Function with multiple values
-func scaningUserInfo() (string, string, string, uint, string) {
+func scanningUserInfo() (string, string, string, uint, string) {
 	//Types of variables
 	var firstName string
 	var lastName string

@@ -4,7 +4,7 @@
 
 It's a basic Golang application to go over basic stuff
 - main.go file
-- variable
+- variable, local, packages, variable scope
 - value types
 - arrays and slices
 - functions

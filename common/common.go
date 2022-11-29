@@ -2,6 +2,9 @@ package common
 
 import "strings"
 
+// In Java this is like a public variable
+var VariableScope string = "This is a variable scope from common package"
+
 // Using capital letter allow to export the function (Public as in Java)
 func ValidateUserInput(firstName string, lastName string, email string, userTickets uint) (bool, bool, bool, bool) {
 	//Conditionals
