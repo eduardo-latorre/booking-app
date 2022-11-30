@@ -9,8 +9,9 @@ It's a basic Golang application to go over basic stuff
 - arrays, slices, maps and structs
 - functions
 - packages
+- gorutines (threads abstraction)
 
 ### Steps for installation
-run inside of the app repo 
+Run inside of the app repo 
 - `go mod init booking-app`
 - `go run .`

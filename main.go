@@ -7,6 +7,8 @@ import (
 	"booking-app/slice"
 	"booking-app/structs"
 	"fmt"
+	"sync"
+	"time"
 )
 
 // Package level variable
@@ -15,6 +17,10 @@ const conferenceTickets = 50
 
 var conferenceName = "Go Conference"
 var remainingTickets uint = 50 //uint no negative as int
+
+// Synchronization for threads
+// If main Threads ends, it'll wait till all threads are finished
+var wg = sync.WaitGroup{}
 
 func main() {
 
@@ -76,6 +82,11 @@ func main() {
 		fmt.Printf("Thank %v %v for booking %v tickets, you'll get your recieve to %v\n", firstName, lastName, userTickets, email)
 		fmt.Printf("Remaining tickets: %v\n", remainingTickets)
 
+		// Using gorutine
+		// Just using "go" you open a new Thread
+		wg.Add(1)
+		go sendTicketsToUser(firstName, lastName, userTickets)
+
 		// Using Arrays
 		array.AddingValuesToArray(firstName)
 		array.GettingArrayValues()
@@ -112,6 +123,9 @@ func main() {
 	var2 := "value2"
 
 	fmt.Printf("variable 1: %v y variable 2: %v\n", var1, var2)
+
+	// It'll wait till threads is done
+	wg.Wait()
 }
 
 func greetUser() {
@@ -148,4 +162,14 @@ func scanningUserInfo() (string, string, string, uint, string) {
 	fmt.Scan(&city)
 
 	return firstName, lastName, email, userTickets, city
+}
+
+func sendTicketsToUser(firstName string, lastName string, userTickets uint) {
+	time.Sleep(10 * time.Second)
+	tickets := fmt.Sprintf("Tickets booked by %v %v, amount %v", firstName, lastName, userTickets)
+	fmt.Println("##########################")
+	fmt.Printf("%v\n", tickets)
+	fmt.Println("##########################")
+
+	wg.Done()
 }
